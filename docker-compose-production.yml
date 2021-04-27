@@ -25,6 +25,7 @@ services:
         links:
             - emqx
             - mongo
+            
 
         command: sh -c "node index.js"
 
