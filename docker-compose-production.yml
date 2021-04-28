@@ -31,16 +31,16 @@ services:
 
     mongo:
         container_name: mongo
-        image: mongo:4.4
-        restart: always
+            image: mongo:4.4
+            restart: always
         environment:
-        TZ: "${TZ}"
-        MONGO_INITDB_ROOT_USERNAME: "${MONGO_USERNAME}"
-        MONGO_INITDB_ROOT_PASSWORD: "${MONGO_PASSWORD}"
+            TZ: "${TZ}"
+            MONGO_INITDB_ROOT_USERNAME: "${MONGO_USERNAME}"
+            MONGO_INITDB_ROOT_PASSWORD: "${MONGO_PASSWORD}"
         volumes: 
-        - ./mongodata:/data/db
+            - ./mongodata:/data/db
         ports: 
-        - ${MONGO_EXT_PORT}:27017
+            - ${MONGO_EXT_PORT}:27017
 
 
     emqx:
@@ -48,77 +48,77 @@ services:
         image: emqx/emqx:4.2.3
         restart: always
         ports:
-        - 18083:18083
-        - 1883:1883
-        - 8883:8883
-        - 8083:8083
-        - 8085:8081
+            - 18083:18083
+            - 1883:1883
+            - 8883:8883
+            - 8083:8083
+            - 8085:8081
 
         volumes:
-        - vol-emqx-data:/opt/emqx/data
-        #  - vol-emqx-etc:/opt/emqx/etc
-        - vol-emqx-log:/opt/emqx/log
+            - vol-emqx-data:/opt/emqx/data
+            #  - vol-emqx-etc:/opt/emqx/etc
+            - vol-emqx-log:/opt/emqx/log
 
         links: 
-        - mongo
+            - mongo
         
         extra_hosts:
-        - "localhost:192.168.1.16"
+            - "localhost:192.168.1.16"
 
         environment: 
-        #listener.tcp.external.max_connections
+            #listener.tcp.external.max_connections
 
-        EMQX_NAME: iotven-gl
-        EMQX_HOST: 127.0.0.1
+            EMQX_NAME: iotven-gl
+            EMQX_HOST: 127.0.0.1
 
-        TZ: "${TZ}"
+            TZ: "${TZ}"
 
-        # DEFAULT DASH PASS
-        EMQX_DASHBOARD__DEFAULT_USER__PASSWORD: "${EMQX_DEFAULT_USER_PASSWORD}"
-        
-        # DEFAULT APP SECRET
-        EMQX_MANAGEMENT__DEFAULT_APPLICATION_SECRET: "${EMQX_DEFAULT_APPLICATION_SECRET}"
-
-
-
-        EMQX_ALLOW_ANONYMOUS: "false"
-        EMQX_NOMATCH: "deny"
+            # DEFAULT DASH PASS
+            EMQX_DASHBOARD__DEFAULT_USER__PASSWORD: "${EMQX_DEFAULT_USER_PASSWORD}"
+            
+            # DEFAULT APP SECRET
+            EMQX_MANAGEMENT__DEFAULT_APPLICATION_SECRET: "${EMQX_DEFAULT_APPLICATION_SECRET}"
 
 
-        # MONGO CONNECTION
-        EMQX_AUTH__MONGO__TYPE: single
-        EMQX_AUTH__MONGO__TOPOLOGY__POOL_SIZE: 1
-        EMQX_AUTH__MONGO__TOPOLOGY__MAX_OVERFLOW: 0
 
-        EMQX_AUTH__MONGO__SERVER: "mongo:${MONGO_EXT_PORT}"
-        EMQX_AUTH__MONGO__POOL: 8
+            EMQX_ALLOW_ANONYMOUS: "false"
+            EMQX_NOMATCH: "deny"
 
-        EMQX_AUTH__MONGO__LOGIN: "${MONGO_USERNAME}"
-        EMQX_AUTH__MONGO__PASSWORD: "${MONGO_PASSWORD}"
-        EMQX_AUTH__MONGO__AUTH_SOURCE: admin
 
-        EMQX_AUTH__MONGO__DATABASE: "iotgl"
-        EMQX_AUTH__MONGO__AUTH_QUERY__COLLECTION: "emqxauthrules"
+            # MONGO CONNECTION
+            EMQX_AUTH__MONGO__TYPE: single
+            EMQX_AUTH__MONGO__TOPOLOGY__POOL_SIZE: 1
+            EMQX_AUTH__MONGO__TOPOLOGY__MAX_OVERFLOW: 0
 
-        EMQX_AUTH__MONGO__SUPER_QUERY__COLLECTION: "emqxauthrules"
-        EMQX_AUTH__MONGO__SUPER_QUERY__SUPER_FIELD: "is_superuser"
-        EMQX_AUTH__MONGO__SUPER_QUERY__SELECTOR: "username=%u"
-        EMQX_AUTH__MONGO__SUPER_QUERY: "off"
+            EMQX_AUTH__MONGO__SERVER: "mongo:${MONGO_EXT_PORT}"
+            EMQX_AUTH__MONGO__POOL: 8
 
-        EMQX_AUTH__MONGO__AUTH_QUERY__PASSWORD_HASH: plain
-        EMQX_AUTH__MONGO__AUTH_QUERY__PASSWORD_FIELD: "password"
-        EMQX_AUTH__MONGO__AUTH_QUERY__SELECTOR: "username=%u"
+            EMQX_AUTH__MONGO__LOGIN: "${MONGO_USERNAME}"
+            EMQX_AUTH__MONGO__PASSWORD: "${MONGO_PASSWORD}"
+            EMQX_AUTH__MONGO__AUTH_SOURCE: admin
 
-        ## Enable ACL query
-        # Access control list
-        EMQX_AUTH__MONGO__ACL_QUERY: "on"
-        EMQX_AUTH__MONGO__ACL_QUERY__COLLECTION: "emqxauthrules"
-        EMQX_AUTH__MONGO__ACL_QUERY__SELECTOR: "username=%u"
+            EMQX_AUTH__MONGO__DATABASE: "iotgl"
+            EMQX_AUTH__MONGO__AUTH_QUERY__COLLECTION: "emqxauthrules"
 
-        EMQX_LOADED_PLUGINS: "emqx_recon,emqx_retainer,emqx_management,emqx_dashboard,emqx_auth_mongo"
+            EMQX_AUTH__MONGO__SUPER_QUERY__COLLECTION: "emqxauthrules"
+            EMQX_AUTH__MONGO__SUPER_QUERY__SUPER_FIELD: "is_superuser"
+            EMQX_AUTH__MONGO__SUPER_QUERY__SELECTOR: "username=%u"
+            EMQX_AUTH__MONGO__SUPER_QUERY: "off"
 
-        # Acl Off
-        # auth.mongo.acl_query = on
-        #EMQX_AUTH__MONGO__ACL_QUERY: = "off"
+            EMQX_AUTH__MONGO__AUTH_QUERY__PASSWORD_HASH: plain
+            EMQX_AUTH__MONGO__AUTH_QUERY__PASSWORD_FIELD: "password"
+            EMQX_AUTH__MONGO__AUTH_QUERY__SELECTOR: "username=%u"
 
-        EMQX_LISTENER__TCP__EXTERNAL__MAX_CONNECTIONS: 1000
+            ## Enable ACL query
+            # Access control list
+            EMQX_AUTH__MONGO__ACL_QUERY: "on"
+            EMQX_AUTH__MONGO__ACL_QUERY__COLLECTION: "emqxauthrules"
+            EMQX_AUTH__MONGO__ACL_QUERY__SELECTOR: "username=%u"
+
+            EMQX_LOADED_PLUGINS: "emqx_recon,emqx_retainer,emqx_management,emqx_dashboard,emqx_auth_mongo"
+
+            # Acl Off
+            # auth.mongo.acl_query = on
+            #EMQX_AUTH__MONGO__ACL_QUERY: = "off"
+
+            EMQX_LISTENER__TCP__EXTERNAL__MAX_CONNECTIONS: 1000

@@ -7,8 +7,9 @@ sudo rm install_docker.sh
 sudo curl -L "https://github.com/docker/compose/releases/download/1.29.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 sudo git clone https://github.com/ggs291/services.git
-sudo mv nombre de la carpeta - nuevo nombre de la carpeta
-cd carpeta
-crear archivo .env dentro de carpeta (nano)
+mv services iotven
+cd iotven
+sudo nano .env "Creo archivo dentro de iotven"
+ls -a  "ver archivo oculto .env"
 
 sudo docker-compose -f docker-compose-production.yml up
