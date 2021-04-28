@@ -31,8 +31,8 @@ services:
 
     mongo:
         container_name: mongo
-            image: mongo:4.4
-            restart: always
+        image: mongo:4.4
+        restart: always
         environment:
             TZ: "${TZ}"
             MONGO_INITDB_ROOT_USERNAME: "${MONGO_USERNAME}"
