@@ -11,5 +11,6 @@ mv services iotven
 cd iotven
 sudo nano .env "Creo archivo dentro de iotven"
 ls -a  "ver archivo oculto .env"
-
+sudo git clone https://github.com/ggs291/app.git
 sudo docker-compose -f docker-compose-production.yml up
+
