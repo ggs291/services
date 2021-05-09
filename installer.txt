@@ -1,3 +1,37 @@
+Método para agregar memoria swap
+sudo fallocate –l 1G /swapfile
+
+comprobar swap
+ls –lh /swapfile
+
+Habilitar el archivo
+permisos de ejecución
+sudo chmod 600 /swapfile
+
+sudo mkswap /swapfile
+
+activar swap
+sudo swapon /swapfile
+
+Verificar
+sudo swapon –s
+free -m
+
+afinar
+cat /proc/sys/vm/swappiness
+Mientras más cerca de 100 mejor aprovechamiento de ram
+sudo sysctl vm.swappiness=70
+
+El valor se mantendrá así hasta el próximo reinicio de la máquina. Si queremos que sea permanente, 
+podemos añadir la siguiente línea al final de nuestro /etc/sysctl.conf.
+
+
+
+
+
+
+
+
 sudo apt-get update
 wget https://get.docker.com/
 sudo mv index.html install_docker.sh
@@ -13,4 +47,24 @@ sudo nano .env "Creo archivo dentro de iotven"
 ls -a  "ver archivo oculto .env"
 sudo git clone https://github.com/ggs291/app.git
 sudo docker-compose -f docker-compose-production.yml up
+
+
+Puertos para abrir
+      - 18083:18083
+      - 1883:1883
+      - 8083:8083
+      - 8085:8081
+
+      - "3000:3000"
+      - "3001:3001"
+      - "80:3002"
+
+
+Para bajar Docker compose de produccion:
+sudo docker-compose -f docker-compose-production.yml down
+
+soa donweb ns3.hostmar.com root.hostmar.com 2021050703 28800 7200 2000000 86400
+
+guy.ns.cloudflare.com dns clodflare
+lisa.ns.cloudflare.com
 
