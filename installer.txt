@@ -24,7 +24,8 @@ sudo sysctl vm.swappiness=70
 
 El valor se mantendrá así hasta el próximo reinicio de la máquina. Si queremos que sea permanente, 
 podemos añadir la siguiente línea al final de nuestro /etc/sysctl.conf.
-
+ ip del contenedor
+sudo ip addr show docker0
 
 
 

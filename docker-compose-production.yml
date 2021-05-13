@@ -8,19 +8,6 @@ volumes:
   vol-emqx-log:
     name: foo-emqx-log
 
-  certbot-etc:
-  certbot-var:
-  web-root:
-    driver: local
-    driver_opts:
-        type: none
-        device: /home/ggs29/iotven/views/
-        o: bind
-        
-networks:
-    app-network:
-        driver: bridge        
-
 services:
     
     node:
@@ -32,42 +19,13 @@ services:
         ports:
             - "3000:3000"
             - "3001:3001"
-            - "80:3002"
 
         links:
             - emqx
             - mongo
 
-        networks:
-            - app-network
-
         command: sh -c "npm run build && npm run start"
-        #command: sh -c "node index.js"
-
-    webserver:
-        image: nginx:mainline-alpine
-        container_name: webserver
-        ports:
-            - "80:80"
-        volumes:
-            - web-root:/var/www/html
-            - ./nginx-conf:/etc/nginx/conf.data
-            - certbot-etc:/etc/letsencrypt
-            - certbot-var:/var/lib/letsencrypt
-        depends_on:
-            - node
-        networks:
-            - app-network
-            
-    certbot:
-        image: certbot/certbot
-        container_name: certbot
-        volumes: 
-            - certbot-etc:/etc/letsencrypt
-            - certbot-var:/var/lib/letsencrypt
-            - web-root:/var/www/html
-        depends_on: webserver
-        command: certonly --webroot --webroot-path=/var/www/html --email misiotven@gmail.com --agree-tos --no-eff-email --staging -d iotven.com -d www.iotven.com                    
+        #command: sh -c "node index.js"                
 
     mongo:
         container_name: mongo
