@@ -52,7 +52,7 @@ sudo docker-compose -f docker-compose-production.yml up
 
 Puertos para abrir
       - 18083:18083
-      - 1883:1883
+      - 12112:1883
       - 8083:8083
       - 8085:8081
 

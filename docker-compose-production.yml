@@ -45,8 +45,10 @@ services:
         image: emqx/emqx:4.2.3
         ports:
             - 18083:18083
+            - 18084:18084
             - 12112:1883
             - 8883:8883
+            - 8084:8084
             - 8083:8083
             - 8085:8081
 
@@ -54,6 +56,8 @@ services:
             - vol-emqx-data:/opt/emqx/data
             #  - vol-emqx-etc:/opt/emqx/etc
             - vol-emqx-log:/opt/emqx/log
+            - /etc/letsencrypt/live/emx.iotven.com/privkey.pem:/opt/emqx/etc/certs/emqx.key
+            - /etc/letsencrypt/live/emx.iotven.com/fullchain.pem:/opt/emqx/etc/certs/emqx.crt
 
         links: 
             - mongo
@@ -69,13 +73,19 @@ services:
 
             TZ: "${TZ}"
 
+
             # DEFAULT DASH PASS
             EMQX_DASHBOARD__DEFAULT_USER__PASSWORD: "${EMQX_DEFAULT_USER_PASSWORD}"
             
             # DEFAULT APP SECRET
-            EMQX_MANAGEMENT__DEFAULT_APPLICATION_SECRET: "${EMQX_DEFAULT_APPLICATION_SECRET}"
+            EMQX_MANAGEMENT__DEFAULT_APPLICATION__SECRET: "${EMQX_DEFAULT_APPLICATION_SECRET}"
 
+            #SSL_CERTIFICATE
+            EMQX_LISTENER__SSL__EXTERNAL__KEYFILE=etc/certs/emqx.key
+            EMQX_LISTENER__SSL__EXTERNAL__CERTFILE=etc/certs/emqx.crt
 
+            EMQX_LISTENER__WSS__EXTERNAL__KEYFILE=etc/certs/emqx.key
+            EMQX_LISTENER__WSS__EXTERNAL__CERTFILE=etc/certs/emqx.crt
 
             EMQX_ALLOW_ANONYMOUS: "false"
             EMQX_NOMATCH: "deny"
